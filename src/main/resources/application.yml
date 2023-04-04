@@ -1,0 +1,17 @@
+server:
+  port: 8001
+
+spring:
+  messages:
+    basename: i18n.constants
+    encoding: UTF-8
+  data:
+    mongodb:
+      database: news
+      username: admin
+      password: 196610121
+      host: 127.0.0.1
+      port: 27017
+      authentication-database: news
+      gridfs:
+        bucket: fs
