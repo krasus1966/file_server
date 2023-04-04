@@ -1,4 +1,4 @@
-package top.krasus1966.file_server.service.impl;
+package top.krasus1966.file_server.service.mongo;
 
 
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
@@ -8,7 +8,7 @@ import top.krasus1966.file_server.service.IFileChunkService;
 
 /**
  * @author Krasus1966
- * @date 2022/11/2 16:10
+ * {@code @date} 2022/11/2 16:10
  **/
 public class MongoFileChunkServiceImpl extends AbstractMongoFileServiceImpl implements IFileChunkService {
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @author Krasus1966
- * @date 2022/11/2 22:18
+ * {@code @date} 2022/11/2 22:18
  **/
 public class PageResultDTO<T> implements Serializable {
     private List<T> rows = Collections.emptyList();

@@ -10,7 +10,7 @@ import java.util.List;
  * 文件存储相关接口
  *
  * @author Krasus1966
- * @date 2023/4/4 22:55
+ * {@code @date} 2023/4/4 22:55
  **/
 public interface IFileStoreService {
     /**
@@ -19,7 +19,7 @@ public interface IFileStoreService {
      * @return java.util.List<top.krasus1966.base_project.mongo.entity.file.FileDocument>
      * @method store
      * @author krasus1966
-     * @date 2022/11/2 16:11
+     * {@code @date} 2022/11/2 16:11
      * @description 存储文件，支持批量
      */
     List<FileInfoDTO> store(List<FileChunkDTO> files) throws IOException;
@@ -32,7 +32,7 @@ public interface IFileStoreService {
      * @throws
      * @method checkFileExists
      * @author krasus1966
-     * @date 2023/4/4 22:58
+     * {@code @date} 2023/4/4 22:58
      * @description 检查文件是否存在
      */
     FileInfoDTO checkFileExists(FileChunkDTO file) throws IOException;
@@ -44,7 +44,7 @@ public interface IFileStoreService {
      * @return void
      * @method delete
      * @author krasus1966
-     * @date 2022/11/2 20:46
+     * {@code @date} 2022/11/2 20:46
      * @description 删除文件
      */
     void delete(String ids);

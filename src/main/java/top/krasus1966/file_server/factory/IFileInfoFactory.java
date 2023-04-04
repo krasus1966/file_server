@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Krasus1966
- * @date 2022/11/16 20:24
+ * {@code @date} 2022/11/16 20:24
  **/
 public interface IFileInfoFactory<T> {
 

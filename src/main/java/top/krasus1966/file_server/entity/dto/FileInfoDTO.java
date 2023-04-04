@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author Krasus1966
- * @date 2023/4/4 00:19
+ * {@code @date} 2023/4/4 00:19
  **/
 public class FileInfoDTO {
     private String fileId;

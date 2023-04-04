@@ -4,7 +4,7 @@ import java.util.Set;
 
 /**
  * @author Krasus1966
- * @date 2023/4/4 00:12
+ * {@code @date} 2023/4/4 00:12
  **/
 public class FileChunkResultDTO {
 

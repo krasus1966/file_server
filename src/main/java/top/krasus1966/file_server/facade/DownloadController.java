@@ -3,18 +3,14 @@ package top.krasus1966.file_server.facade;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import top.krasus1966.base_project.common.core.anno.auth.Auth;
-import top.krasus1966.base_project.common.core.exception.BizException;
-import top.krasus1966.base_project.file.entity.FileInfo;
-import top.krasus1966.base_project.file.service.IFileService;
-import top.krasus1966.base_project.file.util.StreamUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import top.krasus1966.file_server.entity.dto.FileChunkDTO;
 import top.krasus1966.file_server.entity.dto.FileInfoDTO;
+import top.krasus1966.file_server.exception.BizException;
 import top.krasus1966.file_server.service.IFileService;
 import top.krasus1966.file_server.util.StreamUtils;
 
@@ -25,21 +21,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+import java.util.UUID;
 
 /**
  * @author Krasus1966
- * @date 2022/11/2 20:18
+ * {@code @date} 2022/11/2 20:18
  **/
 @RestController
 @Slf4j
 @RequestMapping("/file/download")
-public class DownloadController {
+public class DownloadController extends BaseController {
 
 
     private final IFileService fileService;
 
-    public DownloadController(IFileService fileService) {
+    public DownloadController(IFileService fileService, HttpServletRequest request,
+                              HttpServletResponse response) {
+        super(request, response);
         this.fileService = fileService;
     }
 
@@ -50,29 +51,22 @@ public class DownloadController {
      * @return void
      * @method download
      * @author krasus1966
-     * @date 2022/1/19 09:53
+     * {@code @date} 2022/1/19 09:53
      * @description 通用文件下载
      */
     @GetMapping("/{fileId}")
     public void download(@PathVariable("fileId") String fileId) {
-        if (CharSequenceUtil.isBlank(fileId)){
+        if (CharSequenceUtil.isBlank(fileId)) {
             throw new BizException("文件id不能为空");
         }
-        ServletRequestAttributes requestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        Objects.requireNonNull(requestAttributes);
-        HttpServletResponse resp = requestAttributes.getResponse();
-        HttpServletRequest req = requestAttributes.getRequest();
         try {
             FileInfoDTO fileInfo = fileService.getOneById(fileId);
             if (null == fileInfo) {
                 return;
             }
-            StreamUtils.download(fileInfo, req, resp, 1024);
-        } catch (Exception e) {
-            if (!(e instanceof IOException)) {
-                log.error("/file/download/download ERROR", e);
-            }
+            StreamUtils.download(fileInfo, request, response, 1024);
+        } catch (IOException e) {
+            log.error("/file/download/download ERROR", e);
         }
     }
 
@@ -84,28 +78,21 @@ public class DownloadController {
      * @return void
      * @method downloadZip
      * @author krasus1966
-     * @date 2022/1/19 09:54
+     * {@code @date} 2022/1/19 09:54
      * @description 下载压缩包
      */
     @GetMapping("/downloadZip")
     public void downloadZip(String fileIds, String fileName) throws IOException {
-        if (CharSequenceUtil.isBlank(fileIds)){
+        if (CharSequenceUtil.isBlank(fileIds)) {
             throw new BizException("文件id不能为空");
         }
-        ServletRequestAttributes requestAttributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        Objects.requireNonNull(requestAttributes);
-        HttpServletResponse resp = requestAttributes.getResponse();
+
         List<FileInfoDTO> fileDocuments =
-                fileService.query(FileInfo.builder().id(fileIds).build());
-        if (fileDocuments.isEmpty()) {
-            throw new BizException("文件不存在");
-        }
-        fileDocuments = fileService.findInputStream(fileDocuments);
+                fileService.findInputStream(new FileChunkDTO().setFileId(fileIds));
         StringJoiner paths = new StringJoiner(",");
         List<InputStream> list = new ArrayList<>();
         for (FileInfoDTO file : fileDocuments) {
-            if (file.getInputStream() != null){
+            if (file.getInputStream() != null) {
                 paths.add(file.getFileName());
                 list.add(file.getInputStream());
             }
@@ -116,12 +103,12 @@ public class DownloadController {
         InputStream[] inputStreams = new InputStream[list.size()];
         File zipFile = ZipUtil.zip(File.createTempFile(UUID.randomUUID().toString(), ".tmp"),
                 paths.toString().split(","), list.toArray(inputStreams));
-        resp.setHeader("Content-disposition",
+        response.setHeader("Content-disposition",
                 "attachment;filename=" + URLEncoder.encode(StrUtil.isBlankIfStr(fileName) ?
                         System.currentTimeMillis() + ".zip" : fileName + ".zip", "UTF-8"));
-        resp.setContentType("application/x-zip-compressed");
+        response.setContentType("application/x-zip-compressed");
         try (InputStream is = Files.newInputStream(zipFile.toPath())) {
-            StreamUtils.download(is, resp.getOutputStream(), 1024, -1, -1);
+            StreamUtils.download(is, response.getOutputStream(), 1024, -1, -1);
         } catch (Exception e) {
             if (!(e instanceof IOException)) {
                 log.error("/file/download/downloadZip ERROR", e);

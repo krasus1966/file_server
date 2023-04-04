@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * 通用返回封装
  *
  * @author Krasus1966
- * @date 2020/10/8 21:42
+ * {@code @date} 2020/10/8 21:42
  **/
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 9140215144638597826L;
@@ -38,7 +38,7 @@ public class R<T> implements Serializable {
      * @return top.krasus1966.base_project.common.core.entity.R<T>
      * @method success
      * @author krasus1966
-     * @date 2022/10/31 11:14
+     * {@code @date} 2022/10/31 11:14
      * @description 成功
      */
     public static <T> R<T> success() {
@@ -52,7 +52,7 @@ public class R<T> implements Serializable {
      * @return top.krasus1966.base_project.common.core.entity.R<T>
      * @method success
      * @author krasus1966
-     * @date 2022/10/31 11:00
+     * {@code @date} 2022/10/31 11:00
      * @description 成功
      */
     public static <T> R<T> success(T data) {
@@ -67,7 +67,7 @@ public class R<T> implements Serializable {
      * @return top.krasus1966.base_project.common.core.entity.R<T>
      * @method success
      * @author krasus1966
-     * @date 2022/10/31 11:01
+     * {@code @date} 2022/10/31 11:01
      * @description 成功
      */
     public static <T> R<T> success(String msg, T data) {
@@ -80,7 +80,7 @@ public class R<T> implements Serializable {
      * @return top.krasus1966.base_project.common.core.entity.R<T>
      * @method failed
      * @author krasus1966
-     * @date 2022/10/31 11:01
+     * {@code @date} 2022/10/31 11:01
      * @description 失败
      */
     public static <T> R<T> failed() {
@@ -94,7 +94,7 @@ public class R<T> implements Serializable {
      * @return top.krasus1966.base_project.common.core.entity.R<T>
      * @method failed
      * @author krasus1966
-     * @date 2022/10/31 11:01
+     * {@code @date} 2022/10/31 11:01
      * @description 失败
      */
     public static <T> R<T> failed(String msg) {
@@ -112,7 +112,7 @@ public class R<T> implements Serializable {
      * @return top.krasus1966.base_project.common.core.entity.R<T>
      * @method parse
      * @author krasus1966
-     * @date 2022/10/31 10:57
+     * {@code @date} 2022/10/31 10:57
      * @description 通用返回
      */
     public static <T> R<T> parse(Integer code, String msg, T data) {

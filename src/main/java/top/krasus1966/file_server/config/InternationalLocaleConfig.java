@@ -7,7 +7,7 @@ import top.krasus1966.file_server.handler.InternationalLocaleResolve;
 
 /**
  * @author Krasus1966
- * @date 2023/4/3 23:24
+ * {@code @date} 2023/4/3 23:24
  **/
 @Configuration
 public class InternationalLocaleConfig {

@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author Krasus1966
- * @date 2022/11/16 20:26
+ * {@code @date} 2022/11/16 20:26
  **/
 public class FileChunkFactory implements IFileInfoFactory<FileChunkDTO> {
 

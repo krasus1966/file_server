@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * 分片文件信息
  *
  * @author Krasus1966
- * @date 2023/4/4 00:09
+ * {@code @date} 2023/4/4 00:09
  **/
 public class FileChunkDTO {
 

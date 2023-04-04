@@ -5,7 +5,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * @author Krasus1966
- * @date 2023/4/3 23:49
+ * {@code @date} 2023/4/3 23:49
  **/
 public class I18NUtils {
     private static final MessageSource messageSource = SpringUtil.getBean(MessageSource.class);

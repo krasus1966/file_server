@@ -9,7 +9,7 @@ import java.util.Locale;
 
 /**
  * @author Krasus1966
- * @date 2023/4/3 23:13
+ * {@code @date} 2023/4/3 23:13
  **/
 public class InternationalLocaleResolve implements LocaleResolver {
     @Override

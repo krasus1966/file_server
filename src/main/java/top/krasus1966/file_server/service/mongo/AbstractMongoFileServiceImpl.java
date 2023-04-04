@@ -1,4 +1,4 @@
-package top.krasus1966.file_server.service.impl;
+package top.krasus1966.file_server.service.mongo;
 
 
 import com.mongodb.client.gridfs.GridFSFindIterable;
@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import top.krasus1966.file_server.entity.dto.FileChunkDTO;
 import top.krasus1966.file_server.entity.dto.FileInfoDTO;
+import top.krasus1966.file_server.exception.BizException;
+import top.krasus1966.file_server.util.I18NUtils;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -18,7 +20,7 @@ import java.util.List;
 
 /**
  * @author Krasus1966
- * @date 2022/11/2 16:10
+ * {@code @date} 2022/11/2 16:10
  **/
 public abstract class AbstractMongoFileServiceImpl {
 
@@ -29,10 +31,13 @@ public abstract class AbstractMongoFileServiceImpl {
     }
 
     protected FileInfoDTO getOneById(String id) {
+        if (null == id || "".equals(id)) {
+            throw new BizException(I18NUtils.getMessage("param.id_not_exist"));
+        }
         Query gridQuery = new Query().addCriteria(Criteria.where("_id").is(id));
         GridFSFile gridFsFile = gridFsTemplate.findOne(gridQuery);
         if (null == gridFsFile) {
-            return null;
+            throw new BizException(I18NUtils.getMessage("file.file_not_exists"));
         }
         try {
             return gridFs2FileInfoDTO(true, gridFsFile);
@@ -50,7 +55,7 @@ public abstract class AbstractMongoFileServiceImpl {
      * @throws IOException IO异常
      * @method queryFileInfo
      * @author krasus1966
-     * @date 2023/4/4 23:29
+     * {@code @date} 2023/4/4 23:29
      * @description 查询文件列表
      */
     protected List<FileInfoDTO> queryFileInfo(FileChunkDTO fileInfo, boolean getInputStream) throws IOException {
@@ -77,7 +82,7 @@ public abstract class AbstractMongoFileServiceImpl {
      * @throws IOException
      * @method getFileInfoDTO
      * @author krasus1966
-     * @date 2023/4/4 23:45
+     * {@code @date} 2023/4/4 23:45
      * @description GridFs对象转FileInfoDTO
      */
     protected FileInfoDTO gridFs2FileInfoDTO(boolean getInputStream, GridFSFile gridFSFile) throws IOException {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Krasus1966
- * @date 2022/10/30 16:17
+ * {@code @date} 2022/10/30 16:17
  **/
 @Component
 public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware {
@@ -37,7 +37,7 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * @return T
      * @method getBean
      * @author krasus1966
-     * @date 2022/10/30 16:43
+     * {@code @date} 2022/10/30 16:43
      * @description 获取bean
      */
     public static <T> T getBean(Class<T> bean) {
@@ -51,7 +51,7 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * @return T
      * @method getBean
      * @author krasus1966
-     * @date 2022/10/30 16:43
+     * {@code @date} 2022/10/30 16:43
      * @description 获取bean
      */
     public static <T> T getBean(String name) {
@@ -66,7 +66,7 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * @return T
      * @method getBean
      * @author krasus1966
-     * @date 2022/10/30 16:44
+     * {@code @date} 2022/10/30 16:44
      * @description 获取bean
      */
     public static <T> T getBean(String name, Class<T> bean) {
@@ -80,7 +80,7 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      * @return java.lang.String
      * @method getProperties
      * @author krasus1966
-     * @date 2022/10/30 16:44
+     * {@code @date} 2022/10/30 16:44
      * @description 获取配置文件值
      */
     public static String getProperty(String property) {

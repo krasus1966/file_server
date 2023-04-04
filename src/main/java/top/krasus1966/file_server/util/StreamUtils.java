@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /**
  * @author Krasus1966
- * @date 2021/6/25 22:30
+ * {@code @date} 2021/6/25 22:30
  **/
 public class StreamUtils {
 

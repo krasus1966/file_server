@@ -1,4 +1,4 @@
-package top.krasus1966.file_server.service.impl;
+package top.krasus1966.file_server.service.mongo;
 
 
 import com.mongodb.client.MongoCursor;
@@ -12,7 +12,9 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import top.krasus1966.file_server.entity.dto.FileChunkDTO;
 import top.krasus1966.file_server.entity.dto.FileInfoDTO;
 import top.krasus1966.file_server.entity.dto.PageResultDTO;
+import top.krasus1966.file_server.exception.BizException;
 import top.krasus1966.file_server.service.IFileQueryService;
+import top.krasus1966.file_server.util.I18NUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
 
 /**
  * @author Krasus1966
- * @date 2022/11/2 16:10
+ * {@code @date} 2022/11/2 16:10
  **/
 public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl implements IFileQueryService {
     public MongoFileQueryServiceImpl(GridFsTemplate gridFsTemplate) {
@@ -35,6 +37,9 @@ public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl impl
 
     @Override
     public List<FileInfoDTO> findInputStream(FileChunkDTO fileInfo) throws IOException {
+        if (null == fileInfo.getFileId() || "".equals(fileInfo.getFileId())) {
+            throw new BizException(I18NUtils.getMessage("param.fileId_not_exist"));
+        }
         return super.queryFileInfo(fileInfo, true);
     }
 

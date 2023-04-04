@@ -8,21 +8,27 @@ import top.krasus1966.file_server.entity.dto.FileChunkDTO;
 import top.krasus1966.file_server.entity.dto.FileChunkResultDTO;
 import top.krasus1966.file_server.service.IFileService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * @author Krasus1966
- * @date 2023/4/3 23:00
+ * {@code @date} 2023/4/3 23:00
  **/
 @RestController
-public class UploadController {
+public class UploadController extends BaseController {
 
     private final IFileService fileService;
 
-    public UploadController(IFileService fileService) {
+    public UploadController(IFileService fileService, HttpServletRequest request,
+                            HttpServletResponse response) {
+        super(request, response);
         this.fileService = fileService;
     }
 
     @GetMapping("/chunkIsExists")
-    public R<FileChunkResultDTO> chunkIsExists(FileChunkDTO fileChunkDTO) {
+    public R<FileChunkResultDTO> chunkIsExists(FileChunkDTO fileChunkDTO) throws IOException {
         FileChunkResultDTO fileChunkResultDTO = fileService.chunkIsExists(fileChunkDTO);
         return R.success(fileChunkResultDTO);
     }
