@@ -74,6 +74,6 @@ public class MongoFileQueryServiceImpl extends AbstractMongoFileServiceImpl impl
 
     @Override
     public FileInfoDTO getOneById(String id) {
-        return super.getOneById(id);
+        return super.getOneById(id,true);
     }
 }

@@ -1,6 +1,7 @@
 server:
   port: 8001
-
+temp:
+  chunk_temp_file_path: /Users/krasus1966/temp/testChunk/
 spring:
   messages:
     basename: i18n.constants
@@ -16,3 +17,6 @@ spring:
 #      database: news
       gridfs:
         bucket: fs
+  servlet:
+    multipart:
+      max-file-size: 10000MB

@@ -3,6 +3,8 @@ package top.krasus1966.file_server.service.mongo;
 
 import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,7 +33,23 @@ public abstract class AbstractMongoFileServiceImpl {
         this.gridFsTemplate = gridFsTemplate;
     }
 
-    protected FileInfoDTO getOneById(String id) {
+    public FileInfoDTO checkFileExists(FileChunkDTO file) throws IOException {
+        // 文件不存在跳过
+//        if (null == file.getFile()) {
+//            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
+//        }
+        // 通过摘要信息查询文件是否存在，存在则不再继续存储
+//        String md5 =
+//                Arrays.toString(new Binary(BsonBinarySubType.MD5, file.getFile().getBytes()).getData());
+        Query query = Query.query(Criteria.where("md5").is(file.getMd5()));
+        GridFSFile gridFSFile = gridFsTemplate.findOne(query);
+        if (null != gridFSFile) {
+            return gridFs2FileInfoDTO(false, gridFSFile);
+        }
+        return null;
+    }
+
+    protected FileInfoDTO getOneById(String id,boolean getInputStream) {
         if (null == id || "".equals(id)) {
             throw new BizException(I18NUtils.getMessage("param.id_not_exist"));
         }
@@ -40,7 +59,7 @@ public abstract class AbstractMongoFileServiceImpl {
             throw new BizException(I18NUtils.getMessage("file.file_not_exists"));
         }
         try {
-            return gridFs2FileInfoDTO(true, gridFsFile);
+            return gridFs2FileInfoDTO(getInputStream, gridFsFile);
         } catch (IOException e) {
             return null;
         }

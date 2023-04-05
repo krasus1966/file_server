@@ -51,7 +51,7 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
             ObjectId objectId =
                     gridFsTemplate.store(new ByteArrayInputStream(file.getFile().getBytes()),
                             file.getFileName(),
-                            file.getContentType());
+                            file);
             file.setFileId(objectId.toHexString());
             idList.add(FileChunkFactory.getInstance().toFileInfo(file));
         }
@@ -60,19 +60,7 @@ public class MongoFileStoreServiceImpl extends AbstractMongoFileServiceImpl impl
 
     @Override
     public FileInfoDTO checkFileExists(FileChunkDTO file) throws IOException {
-        // 文件不存在跳过
-        if (null == file.getFile()) {
-            throw new BizException(I18NUtils.getMessage("file.upload_file_not_exists"));
-        }
-        // 通过摘要信息查询文件是否存在，存在则不再继续存储
-        String md5 =
-                Arrays.toString(new Binary(BsonBinarySubType.MD5, file.getFile().getBytes()).getData());
-        Query query = Query.query(Criteria.where("md5").is(md5));
-        GridFSFile gridFSFile = gridFsTemplate.findOne(query);
-        if (null != gridFSFile) {
-            return gridFs2FileInfoDTO(false, gridFSFile);
-        }
-        return null;
+        return super.checkFileExists(file);
     }
 
     @Override

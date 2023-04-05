@@ -4,12 +4,11 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import top.krasus1966.file_server.entity.R;
 import top.krasus1966.file_server.entity.dto.FileChunkDTO;
 import top.krasus1966.file_server.entity.dto.FileInfoDTO;
+import top.krasus1966.file_server.entity.dto.PageResultDTO;
 import top.krasus1966.file_server.exception.BizException;
 import top.krasus1966.file_server.service.IFileService;
 import top.krasus1966.file_server.util.StreamUtils;
@@ -42,6 +41,13 @@ public class DownloadController extends BaseController {
                               HttpServletResponse response) {
         super(request, response);
         this.fileService = fileService;
+    }
+
+
+    @PostMapping("/queryPage")
+    public R<PageResultDTO<FileInfoDTO>> queryPage(FileChunkDTO fileChunkDTO, Integer page,
+                                                   Integer pageSize) throws IOException {
+        return R.success(fileService.queryPage(fileChunkDTO, page, pageSize));
     }
 
     /**

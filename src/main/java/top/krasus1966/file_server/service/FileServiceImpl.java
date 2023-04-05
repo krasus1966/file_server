@@ -68,8 +68,8 @@ public class FileServiceImpl implements IFileService {
     }
 
     @Override
-    public FileChunkResultDTO uploadChunk(FileChunkDTO fileChunkDTO) {
-        return fileChunkService.uploadChunk(fileChunkDTO);
+    public void uploadChunk(FileChunkDTO fileChunkDTO) {
+        fileChunkService.uploadChunk(fileChunkDTO);
     }
 
     @Override

@@ -56,7 +56,7 @@ public class R<T> implements Serializable {
      * @description 成功
      */
     public static <T> R<T> success(T data) {
-        return parse(HttpStatus.OK.value(), I18NUtils.getMessage("action.success1"), data);
+        return parse(HttpStatus.OK.value(), I18NUtils.getMessage("action.success"), data);
     }
 
     /**

@@ -37,7 +37,7 @@ public interface IFileChunkService {
      * {@code @date} 2023/4/4 00:26
      * @description 分片上传：上传分片文件
      */
-    FileChunkResultDTO uploadChunk(FileChunkDTO fileChunkDTO);
+    void uploadChunk(FileChunkDTO fileChunkDTO);
 
     /**
      * 分片上传：合并分片文件
